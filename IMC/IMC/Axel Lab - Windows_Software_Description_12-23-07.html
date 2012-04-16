@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>A custom Windows or Matlab application will be created to provi</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 1.9.79  (Win32)">
+	<META NAME="AUTHOR" CONTENT="Matthew Recchia">
+	<META NAME="CREATED" CONTENT="20071222;13570000">
+	<META NAME="CHANGEDBY" CONTENT="Matthew Recchia">
+	<META NAME="CHANGED" CONTENT="20071223;15050000">
+	<STYLE>
+	<!--
+		@page { size: 8.5in 11in; margin-right: 1.25in; margin-top: 1in; margin-bottom: 1in }
+		P { margin-bottom: 0.08in; direction: ltr; color: #000000; widows: 2; orphans: 2 }
+		P.western { font-family: "Arial", sans-serif; font-size: 10pt; so-language: en-US }
+		P.cjk { font-family: "Times New Roman", serif; font-size: 10pt }
+		P.ctl { font-family: "Arial", sans-serif; font-size: 10pt; so-language: ar-SA }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" TEXT="#000000" DIR="LTR">
+<P STYLE="margin-left: 0.05in; margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+A custom Windows or Matlab application will be created to provide the
+functionality described below.  (The following description assumes
+network connectivity and network file sharing where network storage /
+retrieval is indicated):</P>
+<UL>
+	<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+	The ability to enter a table of odors and the corresponding bank /
+	port on the Olfactometer.</P>
+	<UL>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		This table will be stored as a CSV format flat file.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The application will permit entry &amp; editing of the table.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The application will permit storage and retrieval of the table from
+		local or network attached drives.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The application will permit designation of a &lsquo;blank&rsquo;
+		odor channel for each bank.</P>
+	</UL>
+	<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+	The ability to enter a table of flow rates for each mass flow
+	controller.</P>
+	<UL>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The table will be stored as a CSV format flat file.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The application will permit entry &amp; editing of the table.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The application will permit storage and retrieval of the table from
+		a local or network attached drives.</P>
+	</UL>
+	<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+	The ability to enter a sequence table corresponding to odor
+	assignments and duration in the Olfactometer.</P>
+	<UL>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The table will be stored as a CSV format flat file.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The application will permit entry &amp; editing of the table.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The application will permit storage and retrieval of the table from
+		local or network attached drives.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The table will be depicted as a list of odors and delivery duration
+		in sequential format.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		A pointer will be graphically depicted, such that the current
+		command (the command already sent to the Olfactometer) is
+		identified.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The table will depict a short history of the commands to be sent
+		(some number of commands already sent to the Olfactometer, the
+		current command, as well as the commands to be sent.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The duration can be programmed to deliver an odor for some number
+		of milliseconds, or continuous (0=continuous).</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		Table entries with non-zero programmed durations will automatically
+		revert to the assigned blank channel for its&rsquo; associated bank
+		upon completion of the timed event.</P>
+	</UL>
+	<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+	The ability to generate commands to the Olfactometer.</P>
+	<UL>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The application will utilize TCP/IP communication protocol between
+		the application and the Olfactometer.</P>
+	</UL>
+	<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+	Interfacing with a DIO (Digital I/O board) to accept and deliver a
+	TTL level trigger.</P>
+	<UL>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The TTL level trigger shall increment the aforementioned pointer.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		A TTL level &lsquo;completion&rsquo; signal shall be available to
+		indicate the execution of the programmed command.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The duration of the TTL &lsquo;completion&rsquo; signal duration
+		shall be programmable.</P>
+	</UL>
+	<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+	A graphical method to increment, decrement or reset the pointer to
+	the beginning of the list.</P>
+	<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+	The program shall provide the ability to store all of the programmed
+	settings as a project.</P>
+	<UL>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The stored project shall include embedded copies of all tables.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		The stored project filename shall be user definable.</P>
+		<LI><P STYLE="margin-right: 0.05in; margin-top: 0.08in; line-height: 0.08in">
+		It shall be possible to store the project on local or network
+		drives.</P>
+	</UL>
+</UL>
+</BODY>
+</HTML>

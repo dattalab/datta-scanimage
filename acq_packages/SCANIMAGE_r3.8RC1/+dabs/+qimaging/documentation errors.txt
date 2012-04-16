@@ -1,0 +1,5 @@
+p.32 property given as 'qprmSyncB', but .h file specifies 'qprmSyncb'
+
+p.37 'qinfAsymetricalBinning' should be 'qinfAsymmetricalBinning'
+     'qinfDualChannel' does not exist in .h file (2.0.8)
+    

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "queueFrame", "QCamMEX\QCamMEX.vcproj", "{F415BD5B-59EC-4FF5-8034-488A7C44DF38}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grabFrame", "grabFrame\grabFrame.vcproj", "{AB87A27A-65A4-484B-883B-2A8D8BE62B93}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Matlab R2009b - QCam 2.0.8|Win32 = Matlab R2009b - QCam 2.0.8|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F415BD5B-59EC-4FF5-8034-488A7C44DF38}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F415BD5B-59EC-4FF5-8034-488A7C44DF38}.Debug|Win32.Build.0 = Debug|Win32
+		{F415BD5B-59EC-4FF5-8034-488A7C44DF38}.Matlab R2009b - QCam 2.0.8|Win32.ActiveCfg = Matlab R2009b - QCam 2.0.8|Win32
+		{F415BD5B-59EC-4FF5-8034-488A7C44DF38}.Matlab R2009b - QCam 2.0.8|Win32.Build.0 = Matlab R2009b - QCam 2.0.8|Win32
+		{F415BD5B-59EC-4FF5-8034-488A7C44DF38}.Release|Win32.ActiveCfg = Release|Win32
+		{F415BD5B-59EC-4FF5-8034-488A7C44DF38}.Release|Win32.Build.0 = Release|Win32
+		{AB87A27A-65A4-484B-883B-2A8D8BE62B93}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87A27A-65A4-484B-883B-2A8D8BE62B93}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87A27A-65A4-484B-883B-2A8D8BE62B93}.Matlab R2009b - QCam 2.0.8|Win32.ActiveCfg = Matlab R2009b - QCam 2.0.8|Win32
+		{AB87A27A-65A4-484B-883B-2A8D8BE62B93}.Matlab R2009b - QCam 2.0.8|Win32.Build.0 = Matlab R2009b - QCam 2.0.8|Win32
+		{AB87A27A-65A4-484B-883B-2A8D8BE62B93}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87A27A-65A4-484B-883B-2A8D8BE62B93}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

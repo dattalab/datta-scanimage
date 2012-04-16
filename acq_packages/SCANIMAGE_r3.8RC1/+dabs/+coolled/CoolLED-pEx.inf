@@ -1,0 +1,51 @@
+; CoolLED pEx USB CDC ACM Setup File
+; Copyright (C) 2007..2009 CoolLED ltd.
+
+[Version] 
+Signature	= "$Windows NT$" 
+Class		= Ports 
+ClassGuid	= {4D36E978-E325-11CE-BFC1-08002BE10318} 
+Provider	= %COOLLED% 
+DriverVer	= 01/26/2010
+
+[Manufacturer] 
+
+%COOLLED%	= COOLLED,NTx64,NTamd64
+%COOLLED%	= COOLLED,
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[COOLLED.NTamd64] 
+%COOLLED_pEx%	= pEx, USB\VID_0B6A&PID_E000
+
+[COOLLED.NTx64] 
+%COOLLED_pEx%	= pEx, USB\VID_0B6A&PID_E000
+
+[COOLLED] 
+%COOLLED_pEx%	= pEx, USB\VID_0B6A&PID_E000
+
+[pEx] 
+include=mdmcpq.inf
+CopyFiles=FakeModemCopyFileSection 
+AddReg= pEx.AddReg 
+
+[pEx.AddReg] 
+HKR,,DevLoader,,*ntkern 
+HKR,,NTMPDriver,,usbser.sys 
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider" 
+
+[pEx.Services] 
+Include=mdmcpq.inf
+AddService=usbser, 0x00000002, LowerFilter_Service_Inst
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+;------------------------------------------------------
+
+[Strings] 
+COOLLED		= "CoolLED Ltd."
+COOLLED_pEx	= "pEx USB COM Port" 
+Serial.ServiceDesc	= "CoolLED pEx USB RS-232 Emulation"
+

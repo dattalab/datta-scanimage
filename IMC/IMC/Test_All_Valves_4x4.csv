@@ -1,0 +1,21 @@
+#Example odor table.
+#Comments begin with a '#' or '%'.
+#Fields: OdorName, Bank1_Valves, Bank2_Valves, Bank3_Valves, Bank4_Valves
+#For each BankN_Valves entry, the number signifies which valve on the bank is to be open at that state (ie. that table row).
+#The odor name is just for display purposes, and any non-empty string is allowable.
+Bank1Valve0, 0, 0, 0, 0
+Bank1Valve1, 1, 1, 1, 1
+Bank1Valve2, 2, 2, 2, 2
+Bank1Valve3, 3, 3, 3, 3
+Bank1Valve4, 4, 4, 4, 4
+Bank1Valve5, 5, 5, 5, 5
+Bank1Valve6, 6, 6, 6, 6
+Bank1Valve7, 7, 7, 7, 7
+Bank1Valve8, 8, 8, 8, 8
+Bank1Valve9, 9, 9, 9, 9
+Bank1Valve10, 10, 10, 10, 10
+Bank1Valve11, 11, 11, 11, 11
+Bank1Valve12, 12, 12, 12, 12
+Bank1Valve13, 13, 13, 13, 13
+Bank1Valve14, 14, 14, 14, 14
+Bank1Valve15, 15, 15, 15, 15

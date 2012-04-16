@@ -1,0 +1,3 @@
+function loadOdorSet(~,~)
+    loadPartialConfig;
+    buildOdorStateTransitions;

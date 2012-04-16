@@ -1,0 +1,3 @@
+Channel ID: 1
+Mode: V-Clamp
+Gain: 5
