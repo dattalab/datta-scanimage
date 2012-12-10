@@ -63,5 +63,9 @@ function agSetPath(exptNumber, exptLetter)
     updateGUIByGlobal('state.files.autoSave');
     updateGUIByGlobal('state.files.baseName');
     
+    
+    xsg_setPath(state.files.savePath);
+    setEpoch(1);
+    
     disp(['*** SAVE PATH = ' state.files.savePath ' ***']);
     disp(['*** BASE NAME = ' state.files.baseName ' ***']);	

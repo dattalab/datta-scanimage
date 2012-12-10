@@ -1,11 +1,17 @@
 function olfactometerClearValves()
+global state gh;
 
-state.olfactometer.valveBank_1
-state.olfactometer.valveEnable_1
+if ~(isfield(state, 'olfactometer'))
+    state = struct('olfactometer', struct('host', '192.168.20.85', 'port', 3336, 'lastCommand', '', 'lastResponse', ''));
+    gh = struct('olfactometer', struct('lastResponse',struct('ForegroundColor', '')));
+end
+connectToOlfactometer()
 
 for i=1:16
-
+    disp(['Clearing valve ' num2str(i-1)])
 sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ...
-    ['write Bank' num2str(state.olfactometer.valveBank_i) '_Valves ' num2str(nextValvePosition-1)]);
+     ['write Bank3_Valves ' num2str(i-1)]);
+    %['write Bank' num2str(state.olfactometer.valveBank_i) '_Valves ' num2str(nextValvePosition-1)]);
+pause(600)
 
 end

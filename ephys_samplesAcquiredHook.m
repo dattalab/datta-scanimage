@@ -1,0 +1,3 @@
+function ephys_samplesAcquiredHook(varargin)
+
+end

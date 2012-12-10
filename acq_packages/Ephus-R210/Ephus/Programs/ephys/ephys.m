@@ -22,7 +22,7 @@ function varargout = ephys(varargin)
 
 % Edit the above text to modify the response to help ephys
 
-% Last Modified by GUIDE v2.5 20-Apr-2010 12:14:15
+% Last Modified by GUIDE v2.5 12-Nov-2012 13:27:33
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;

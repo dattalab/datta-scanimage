@@ -1,7 +1,6 @@
 function buildOdorStateTransitions(eventName, eventData)
 global state gh;
 
-
 state.olfactometer.odorPosition=1;
 
 state.olfactometer.odorStateList;
@@ -31,6 +30,14 @@ enabledOdors = zeros(1,16);
 state.olfactometer.nOdors=0;
 for i=1:16
     enabledOdors(i) = state.olfactometer.(['valveEnable_' num2str(i)]);
+end
+
+%need to force enabling of the first odor
+if ~any(enabledOdors)
+    disp('LIKELY ERROR-  NO ENABLED ODORS!  enabling the first valve (blank)')
+    state.olfactometer.valveEnable_1 = 1;
+    updateGUIByGlobal('state.olfactometer.valveEnable_1');
+    enabledOdors(1) = 1;
 end
 
 odors=[];

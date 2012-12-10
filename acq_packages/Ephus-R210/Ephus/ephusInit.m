@@ -80,9 +80,9 @@ acqBoardIDs = [3,3,3,3];                       % A single number (e.g. 1 for 'De
 acqChannelIDs =  [4,5,6,7];                    % Array of numbers, of length equal to 'acqChannelNames', identifying DAQmx channel number (e.g. 1 for AI1) for each of the named acquisition channels (e.g. [0 1 2 0 1] indicating AI0-2 for first 3 channels  and AI0-1 for last 2 channels, for case of multiple boards). 
 
 %Stimulator channels (Analog Output) 
-stimChannelNames = {'picospritzer'};                  % Cell array of descriptive names for analog output stimulus channels to configure, e.g. {'Whisker Stimulator' 'Position Encoder'}, 
-stimBoardIDs = [3];                      % A single number (e.g. 1 for 'Dev1') specifying DAQmx board for /all/ named analog stimulus channels; or, an array of numbers of length equal to 'stimChannelNames' (e.g. [1 1 1 2 2] indicating 'Dev1' for first 3 channels, 'Dev2' for last 2 channels) identifying DAQmx board on which each of the named analog stimulus channels appears. 
-stimChannelIDs = [1];                    % Array of numbers, of length equal to 'stimChannelNames', identifying DAQmx channel number (e.g. 1 for AI1) for each of the named analog stimulus channels (e.g. [0 1 2 0 1] indicating AI0-2 for first 3 channels  and AI0-1 for last 2 channels, for case of multiple boards). 
+stimChannelNames = {};                  % Cell array of descriptive names for analog output stimulus channels to configure, e.g. {'Whisker Stimulator' 'Position Encoder'}, 
+stimBoardIDs = [];                      % A single number (e.g. 1 for 'Dev1') specifying DAQmx board for /all/ named analog stimulus channels; or, an array of numbers of length equal to 'stimChannelNames' (e.g. [1 1 1 2 2] indicating 'Dev1' for first 3 channels, 'Dev2' for last 2 channels) identifying DAQmx board on which each of the named analog stimulus channels appears. 
+stimChannelIDs = [];                    % Array of numbers, of length equal to 'stimChannelNames', identifying DAQmx channel number (e.g. 1 for AI1) for each of the named analog stimulus channels (e.g. [0 1 2 0 1] indicating AI0-2 for first 3 channels  and AI0-1 for last 2 channels, for case of multiple boards). 
 
 %Stimulator channels (Digital Output)
 digStimChannelNames = {};               % Cell array of descriptive names for digital output stimulus channels to configure, e.g. {'Camera Trigger' 'LED Pulse'}
@@ -94,7 +94,7 @@ digStimLineIDs =  [];                   % Array of numbers, of length equal to '
 %If ordering of channels in Acquirer and/or Stimulator is important, specify the order here. Otherwise, leave these empty.
 %If Mapper is enabled, lists must include all Mapper-configured Stimulator channels ('xMirror' 'yMirror' 'pockelsCell' 'shutter0') and Mapper-configured Acquirer channels ('photodiode1').
 %NOTE: Users who have employed 'legacy' startup files (prior to release r2.1.0) should set these to match the order in those startup files, in order to correctly use previously saved configuration sets
-stimChannelNamesOrder = {'picospritzer'};             % Cell array of all Stimulator channel names -- analog, digital, and Mapper configured -- in desired order of appearance in Stimulator
+stimChannelNamesOrder = {};             % Cell array of all Stimulator channel names -- analog, digital, and Mapper configured -- in desired order of appearance in Stimulator
 acqChannelNamesOrder = {'chan4','chan5','chan6','chan7'};              % Cell array of all Acquirer channel names -- includig Mapper configured -- in desired order of appearance in Acquirer
 
 %% TIMING/TRIGGERING CONFIGURATION
@@ -102,7 +102,7 @@ initialSampleRate = 10000;              %(REQUIRED) Initial rate, in Hz, to use 
 
 %The /single/ digital line identified by 'triggerOrigin' should be connected to /first/ of the terminal names (i.e. the default terminal) identified in the 'triggerDestination' list, on /all/ of the DAQmx boards configured for use by Ephus
 triggerOrigin = '/dev3/port0/line0';                     %(REQUIRED) Full DAQmx specification of single digital line on /one/ board (e.g. '/dev1/port0/line0') used as the Ephus default trigger pulse to synchronize the one or more boards.
-triggerDestinations = {'PFI1','PFI2','PFI3'};               %(REQUIRED) Cell array of one or more DAQmx PFI terminal names configured as the choice of PFI terminals on which Ephus must receive a trigger input signal, on /all/ of the DAQmx boards configured for use by Ephus.
+triggerDestinations = {'PFI1'}; %'PFI1','PFI2','PFI3'};               %(REQUIRED) Cell array of one or more DAQmx PFI terminal names configured as the choice of PFI terminals on which Ephus must receive a trigger input signal, on /all/ of the DAQmx boards configured for use by Ephus.
 
 %The 'sampleClockOrigin' and/or 'sampleClockDestination need be configured only IF one or more of the following is true:
 %   1) using multiple boards AND employing digital stimulator lines. 

@@ -11,13 +11,13 @@ function initOlfactometer
 	waitbar(.1,h);
 	
 	%openini('olfactometer.ini');
-	initguis('olfactometer.ini');
+	initGUIs('olfactometer.ini');
     
 	waitbar(.2,h,'Connecting to olfactometer and setting flowrates...');
     
     % connect to olfactometer and set basic flow rates
     connectToOlfactometer();
-    updateMFCRates();
+    updateMFCRates(2);
     %initOlfactometerTasks();
     
     waitbar(1,h);
@@ -49,5 +49,5 @@ function initOlfactometer
   state.olfactometer.nFrames=0;
   state.olfactometer.totalMS=0;
  
-  
+  olfactometer_refresh;
 end

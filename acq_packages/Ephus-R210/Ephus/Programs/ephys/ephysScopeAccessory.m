@@ -34,7 +34,7 @@ function varargout = ephysScopeAccessory(varargin)
 
 % Edit the above text to modify the response to help ephysScopeAccessory
 
-% Last Modified by GUIDE v2.5 16-Feb-2010 22:00:51
+% Last Modified by GUIDE v2.5 12-Nov-2012 14:48:52
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
