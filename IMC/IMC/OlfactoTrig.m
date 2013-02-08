@@ -239,8 +239,9 @@ function incrementOdor(hObject)
 
 if currentOdorIndex < size(odorTable, 1)
     updateOdorIndex(hObject, currentOdorIndex + 1);
-    % else
-    %     updateOdorIndex(hObject, 1);%Go back to the beginning?
+end
+if currentOdorIndex == size(odorTable, 1)-1
+    updateOdorIndex(hObject, 1);%Go back to the beginning?
 end
 
 return;
@@ -378,7 +379,7 @@ function incrementOdorByTrigger(ai, eventdata, hObject)
 global state;
 
 [triggerTask] = getLocalBatch(progmanager, hObject, 'triggerTask');
-% fprintf(1, 'OlfactoTrig/incrementOdorByTrigger\n');
+%fprintf(1, 'OlfactoTrig/incrementOdorByTrigger\n');
 
 % if ~isempty(syncTask)
 %     putsample(syncTask, 5);
@@ -441,11 +442,11 @@ if ~isempty(syncTask)
 end
 
 %tcp_udp_ip doesn't play well with others, use the daqtoolbox instead of nimex.
-triggerTask = analoginput('nidaq', 'Dev1'); %['dev' num2str(triggerBoardID)]);
-addchannel(triggerTask, 0);
-set(triggerTask, 'sampleRate', 10000, 'SamplesAcquiredFcn', {@incrementOdorByTrigger, hObject}, 'SamplesAcquiredFcnCount', 2, 'SamplesPerTrigger', 5000, ...
-    'TriggerType', 'HwDigital', 'HwDigitalTriggerSource', triggerLine, 'triggerRepeat', Inf, 'BufferingConfig', [10000, 2]);
-start(triggerTask);
+% triggerTask = analoginput('nidaq', ['dev' num2str(triggerBoardID)]);
+% addchannel(triggerTask, 0);
+% set(triggerTask, 'sampleRate', 10000, 'SamplesAcquiredFcn', {@incrementOdorByTrigger, hObject}, 'SamplesAcquiredFcnCount', 2, 'SamplesPerTrigger', 5000, ...
+%     'TriggerType', 'HwDigital', 'HwDigitalTriggerSource', triggerLine, 'triggerRepeat', Inf, 'BufferingConfig', [10000, 2]);
+% start(triggerTask);
 %
 % syncTask = analogoutput('nidaq', 'phys');%['dev' num2str(syncOutBoardID)]);
 % addchannel(syncTask, syncOutChannelID);
@@ -457,6 +458,16 @@ start(triggerTask);
 % start(syncTask);
 
 % setLocalBatch(progmanager, hObject, 'triggerTask', triggerTask, 'syncTask', syncTask, 'syncOutPulse', syncOutPulse);
+
+triggerTask = daqjob('olf');
+set(triggerTask,'triggerDestinations', triggerLine);
+addAnalogInput(triggerTask, 'trig', ['/dev' num2str(triggerBoardID) '/ai'], 0);
+setTaskProperty(triggerTask, 'trig', 'samplingRate', 10000, 'sampsPerChanToAcquire', 2);
+createMasterSampleClock(triggerTask,'/dev1/ctr0',10000);
+nimex_bindDoneCallback(getTaskByChannelName(triggerTask, 'trig'), {@incrementOdorByTrigger, '', '', hObject}, 'done', 0)
+
+start(triggerTask);
+
 setLocalBatch(progmanager, hObject, 'triggerTask', triggerTask);
 return;
 
@@ -505,8 +516,8 @@ out = {
     'olfactometerPort', 3336, 'Class', 'Numeric', 'Gui', 'olfactometerPort', 'Config', 7, ...
     'olfactometerName', '', 'Class', 'char', 'Gui', 'olfactometerName', ...
     'odorTableFile', '', 'Class', 'char', 'Gui', 'odorTableFile', 'Config', 7, ...
-    'triggerBoardID', 1, 'Class', 'Numeric', 'Gui', 'triggerBoardID', 'Config', 7, ...
-    'triggerLine', 'PFI0', 'Class', 'char', 'Gui', 'triggerLine', 'Config', 7, ...
+    'triggerBoardID', 6, 'Class', 'Numeric', 'Gui', 'triggerBoardID', 'Config', 7, ...
+    'triggerLine', 'PFI1', 'Class', 'char', 'Gui', 'triggerLine', 'Config', 7, ...
     'syncOutBoardID', 1, 'Class', 'Numeric', 'Gui', 'syncOutBoardID', 'Config', 7, ...
     'syncOutChannelID', 0, 'Class', 'Numeric', 'Gui', 'syncOutChannelID', 'Config', 7, ...
     'lastCommand', '', 'Class', 'char', 'Gui', 'lastCommand', ...
