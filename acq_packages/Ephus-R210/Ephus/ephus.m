@@ -354,7 +354,7 @@ try
                     argList = [argList extraPVArgs];
                 end
             end
-
+            
             patch{i} = feval(amplifierType,argList{:});
         end
     end
