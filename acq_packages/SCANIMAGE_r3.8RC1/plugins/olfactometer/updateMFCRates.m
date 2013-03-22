@@ -1,8 +1,8 @@
     function updateMFCRates(flowRate)
         global state
         if nargin<1
-            carrierRate = 245;
-            odorRate = 55;
+            carrierRate = 1000;
+            odorRate = 60;
         end
         
         if nargin == 1
@@ -28,7 +28,7 @@
        
              if flowRate== 2
             carrierRate = 475;  % should yield 1800 ml/min
-            odorRate = 90; % should yield 200 ml/min
+            odorRate = 50; % should yield 200 ml/min
              end
         end
     
@@ -54,13 +54,13 @@
         
         sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write BankFlow1_Actuator ' num2str(mfc1)]);
         sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write BankFlow2_Actuator ' num2str(mfc2)]);
-        sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write BankFlow3_Actuator ' num2str(mfc3)]);
-        sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write BankFlow4_Actuator ' num2str(mfc4)]);
+        %sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write BankFlow3_Actuator ' num2str(mfc3)]);
+        %sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write BankFlow4_Actuator ' num2str(mfc4)]);
         %
         sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write Carrier1_Actuator ' num2str(mfc5)]);
         sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write Carrier2_Actuator ' num2str(mfc6)]);
-        sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write Carrier3_Actuator ' num2str(mfc7)]);
-        sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write Carrier4_Actuator ' num2str(mfc8)]);
+        %sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write Carrier3_Actuator ' num2str(mfc7)]);
+        %sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write Carrier4_Actuator ' num2str(mfc8)]);
         
         return;
         
