@@ -37,20 +37,21 @@ if ~ischar(channelID)
     channelID = num2str(channelID);
 end
 
-if ~ischar(lineID)
-    if length(lineID) > 1
-        lineID = [num2str(lineID(1)) ':' num2str(lineID(end))];
-    else
-        lineID = num2str(lineID);
-    end
-end
+% if ~ischar(lineID)
+%     if length(lineID) > 1
+%         lineID = [num2str(lineID(1)) ':' num2str(lineID(end))];
+%     else
+%         lineID = num2str(lineID);
+%     end
+% end
+
 
 task = getOrCreateTask(this, subsystemName);
 daqjobGlobalStructure(this.ptr).channelMap{index, 1} = channelName;
 daqjobGlobalStructure(this.ptr).channelMap{index, 2} = subsystemName;
-daqjobGlobalStructure(this.ptr).channelMap{index, 3} = lineID;
+daqjobGlobalStructure(this.ptr).channelMap{index, 3} = channelID; %lineID;
 daqjobGlobalStructure(this.ptr).channelMap{index, 4} = 'digitalIn';
-nimex_addDigitalInput(task, [subsystemName lineID]);
-nimex_setChannelProperty(task, [subsystemName lineID], 'mnemonicName', channelName, 'enable', 0);%TO050508F
+nimex_addDigitalInput(task, [subsystemName channelID]); %lineID]);
+nimex_setChannelProperty(task, [subsystemName channelID], 'mnemonicName', channelName, 'enable', 0);%TO050508F  %changed to channelID
 
 return;
