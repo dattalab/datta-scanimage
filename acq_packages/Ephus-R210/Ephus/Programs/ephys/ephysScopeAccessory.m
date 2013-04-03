@@ -34,7 +34,7 @@ function varargout = ephysScopeAccessory(varargin)
 
 % Edit the above text to modify the response to help ephysScopeAccessory
 
-% Last Modified by GUIDE v2.5 12-Nov-2012 14:48:52
+% Last Modified by GUIDE v2.5 03-Apr-2013 16:15:12
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -146,6 +146,7 @@ out = {
        'displayWidth', [], ...
        'autoDisplayWidth', [], ...
        'dataToBeSaved', 0, ...
+       'freezeButton', 0, 'Class', 'Numeric', 'Gui', 'freezeButton', ...        % added by AJG 04.03.2013
    };
 
 return;
@@ -827,6 +828,71 @@ else
     setLocal(progmanager, hObject, 'breakInTime', []);
     %TO042106E: Make the button red when not logging time. -- Tim O'Connor 4/21/06
     setLocalGh(progmanager, hObject, 'breakIn', 'String', 'Break-In', 'BackgroundColor', [1 0 0]);
+end
+
+return;
+
+
+% --- Executes on button press in freezeButton.
+function freezeButton_Callback(hObject, eventdata, handles)
+% hObject    handle to freezeButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+sc = getGlobal(progmanager, 'scopeObject', 'scopeGui', 'scopeGui');
+
+if getLocal(progmanager, hObject, 'freezeButton')
+    if getLocal(progmanager, hObject, 'startButton')
+        ephysAcc_stop(hObject);
+        set(get(get(sc, 'figure'), 'CurrentAxes'), 'YLimMode', 'manual')
+        ephysAcc_start(hObject);
+    else
+        set(get(get(sc, 'figure'), 'CurrentAxes'), 'YLimMode', 'manual')
+    end
+else
+    if getLocal(progmanager, hObject, 'startButton')
+        ephysAcc_stop(hObject);
+        set(get(get(sc, 'figure'), 'CurrentAxes'), 'YLimMode', 'auto')
+        ephysAcc_start(hObject);
+    else
+        set(get(get(sc, 'figure'), 'CurrentAxes'), 'YLimMode', 'auto')
+    end
+end
+
+return;
+% Hint: get(hObject,'Value') returns toggle state of freezeButton
+
+
+% --- Executes on button press in expandButton.
+function expandButton_Callback(hObject, eventdata, handles)
+% hObject    handle to expandButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+sc = getGlobal(progmanager, 'scopeObject', 'scopeGui', 'scopeGui');
+ylim = get(get(get(sc, 'figure'), 'CurrentAxes'), 'YLim');
+
+yrange = ylim(2) - ylim(1);
+amount_to_expand = floor(yrange * 0.1);
+
+if getLocal(progmanager, hObject, 'freezeButton')
+    if getLocal(progmanager, hObject, 'startButton')
+        ephysAcc_stop(hObject);
+        set(get(get(sc, 'figure'), 'CurrentAxes'), 'Ylim', [ylim(1)-amount_to_expand ylim(2)+amount_to_expand]);
+        ephysAcc_start(hObject);
+    else
+        set(get(get(sc, 'figure'), 'CurrentAxes'), 'Ylim', [ylim(1)-amount_to_expand ylim(2)+amount_to_expand]);
+    end
+else
+    if getLocal(progmanager, hObject, 'startButton')
+        ephysAcc_stop(hObject);
+        setLocal(progmanager, hObject, 'freezeButton', 1);
+        set(get(get(sc, 'figure'), 'CurrentAxes'), 'YLimMode', 'manual');
+        set(get(get(sc, 'figure'), 'CurrentAxes'), 'Ylim', [ylim(1)-amount_to_expand ylim(2)+amount_to_expand]);
+        ephysAcc_start(hObject);
+    else
+        setLocal(progmanager, hObject, 'freezeButton', 1);
+        set(get(get(sc, 'figure'), 'CurrentAxes'), 'YLimMode', 'manual');
+        set(get(get(sc, 'figure'), 'CurrentAxes'), 'Ylim', [ylim(1)-amount_to_expand ylim(2)+amount_to_expand]);
+    end
 end
 
 return;
