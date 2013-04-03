@@ -871,7 +871,7 @@ sc = getGlobal(progmanager, 'scopeObject', 'scopeGui', 'scopeGui');
 ylim = get(get(get(sc, 'figure'), 'CurrentAxes'), 'YLim');
 
 yrange = ylim(2) - ylim(1);
-amount_to_expand = floor(yrange * 0.1);
+amount_to_expand = floor(yrange * 0.05);
 
 if getLocal(progmanager, hObject, 'freezeButton')
     if getLocal(progmanager, hObject, 'startButton')
