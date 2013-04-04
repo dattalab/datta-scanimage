@@ -841,6 +841,7 @@ function freezeButton_Callback(hObject, eventdata, handles)
 sc = getGlobal(progmanager, 'scopeObject', 'scopeGui', 'scopeGui');
 
 if getLocal(progmanager, hObject, 'freezeButton')
+    set(handles.freezeButton, 'String', 'Frozen')
     if getLocal(progmanager, hObject, 'startButton')
         ephysAcc_stop(hObject);
         set(get(get(sc, 'figure'), 'CurrentAxes'), 'YLimMode', 'manual')
@@ -849,6 +850,7 @@ if getLocal(progmanager, hObject, 'freezeButton')
         set(get(get(sc, 'figure'), 'CurrentAxes'), 'YLimMode', 'manual')
     end
 else
+    set(handles.freezeButton, 'String', 'Freeze')
     if getLocal(progmanager, hObject, 'startButton')
         ephysAcc_stop(hObject);
         set(get(get(sc, 'figure'), 'CurrentAxes'), 'YLimMode', 'auto')
@@ -882,6 +884,9 @@ if getLocal(progmanager, hObject, 'freezeButton')
         set(get(get(sc, 'figure'), 'CurrentAxes'), 'Ylim', [ylim(1)-amount_to_expand ylim(2)+amount_to_expand]);
     end
 else
+    parentFigureHandles = get(get(hObject, 'Parent'), 'Children');
+    freezeButtonHandle = parentFigureHandles(2);  % shitty magic number here...
+    set(freezeButtonHandle, 'String', 'Frozen')
     if getLocal(progmanager, hObject, 'startButton')
         ephysAcc_stop(hObject);
         setLocal(progmanager, hObject, 'freezeButton', 1);
