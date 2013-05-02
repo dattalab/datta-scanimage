@@ -1,8 +1,7 @@
-% ephys_setTraceLength - Set the epoch number.
+% ephys_setTraceLength - Set the ephys trace length.
 %
 % SYNTAX
 %  acq_setTraceLength(traceLength)
-%  xsg_setEpochNumber(hObject, traceLength)
 %   traceLength - Any integer from 0 to 9999. the length of the trace in
 %   seconds
 %
@@ -11,17 +10,6 @@
 % NOTES
 %
 % CHANGES
-function ephys_setTraceLength(varargin)
-
-if length(varargin) == 1
-    hObject = ephys_getHandle;
-    traceLength = varargin{1};
-else
-    hObject = varargin{1};
-    traceLength = varargin{2};
-end
-
-setLocal(progmanager, hObject, 'traceLength', traceLength);
-ephys('traceLength_Callback',hObject,[],guihandles(getParent(hObject, 'figure')))
-
+function ephys_setTraceLength(traceLength)
+setGlobal(progmanager, 'traceLength', 'ephys', 'ephys', traceLength);
 return;
