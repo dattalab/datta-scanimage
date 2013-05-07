@@ -305,7 +305,7 @@ stop(triggerTask);
 
 [bank_number, states, state_index] = getLocalBatch(progmanager, hObject, 'bank_number', 'states', 'state_index');
 valve_number = str2num(states(state_index))+1;
-sendCommand(hObject, ['write Bank' num2str(bank_number) '_Valves ' num2str(valve_number)]);
+sendCommand(hObject, ['write Bank' num2str(bank_number) '_Valves ' num2str(valve_number-1)]);
 
 state_index = state_index+1;
 if state_index > length(states)
@@ -351,6 +351,6 @@ button_number = str2num(button_name(end));
 setLocal(progmanager, hObject, 'valve_button', button_number);
 
 bank_number = getLocal(progmanager, hObject, 'bank_number');
-sendCommand(hObject, ['write Bank' num2str(bank_number) '_Valves ' num2str(button_number)]);
+sendCommand(hObject, ['write Bank' num2str(bank_number) '_Valves ' num2str(button_number-1)]);
 
 
