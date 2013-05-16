@@ -22,7 +22,7 @@ function varargout = simpleOlfactometer(varargin)
 
 % Edit the above text to modify the response to help simpleOlfactometer
 
-% Last Modified by GUIDE v2.5 03-May-2013 10:35:59
+% Last Modified by GUIDE v2.5 16-May-2013 16:01:38
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -161,7 +161,8 @@ out = {
     'last_command', '', 'Class', 'Char', 'Gui', 'last_command', ...
     'last_response', '', 'Class', 'Char', 'Gui', 'last_response', ...
     'states', '', 'Class', 'Char', ...
-    'state_index', 1, 'Class', 'numeric'
+    'state_index', 1, 'Class', 'numeric', ...
+    'scim_sync', 0, 'Gui', 'scim_sync', 'Config', 3
     };
 return;
 
@@ -186,6 +187,8 @@ pre = getLocal(progmanager, hObject, 'pre_sec') * sample_rate;
 odor = getLocal(progmanager, hObject, 'odor_sec') * sample_rate;
 post = getLocal(progmanager, hObject, 'post_sec') * sample_rate;
 valve = str2num(getLocal(progmanager, hObject, 'valve_number'));
+
+scim_sync = getLocal(progmanager, hObject, 'scim_sync');
 
 trace_length_in_samples = (pre+odor+post);
 if trace_length_in_samples == 0
@@ -220,6 +223,13 @@ delete(allPulses)
 ephys_setTraceLength(trace_length_in_samples/sample_rate);
 acq_setTraceLength(trace_length_in_samples/sample_rate);
 stim_setTraceLength(trace_length_in_samples/sample_rate);
+
+% set scanimage frames if needed
+if scim_sync == 1
+    global state
+    state.acq.numberOfFrames = ceil(trace_length_in_samples/sample_rate * state.acq.frameRate);
+    updateGUIByGlobal('state.acq.numberOfFrames');
+end
 
 
 % ------------------------------------------------------------------
@@ -355,3 +365,10 @@ bank_number = getLocal(progmanager, hObject, 'bank_number');
 sendCommand(hObject, ['write Bank' num2str(bank_number) '_Valves ' num2str(button_number-1)]);
 
 
+% --- Executes on button press in scim_sync.
+function scim_sync_Callback(hObject, eventdata, handles)
+% hObject    handle to scim_sync (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of scim_sync
