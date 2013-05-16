@@ -177,7 +177,7 @@ out = 0.01;
 
 function makeStates(hObject)
 valve = getLocal(progmanager, hObject, 'valve_number');
-setLocal(progmanager, hObject, 'states', ['0' valve]);
+setLocal(progmanager, hObject, 'states', [valve '0']);
 setLocal(progmanager, hObject, 'state_index', 1);
 
 function makePulses(hObject)
@@ -304,8 +304,10 @@ function incrementOdorByTrigger(ai, eventdata, hObject)
 stop(triggerTask);
 
 [bank_number, states, state_index] = getLocalBatch(progmanager, hObject, 'bank_number', 'states', 'state_index');
-valve_number = str2num(states(state_index))+1;
-sendCommand(hObject, ['write Bank' num2str(bank_number) '_Valves ' num2str(valve_number-1)]);
+valve_number = str2num(states(state_index));
+
+disp(['switching to valve ' num2str(valve_number) ])
+sendCommand(hObject, ['write Bank' num2str(bank_number) '_Valves ' num2str(valve_number)]);
 
 state_index = state_index+1;
 if state_index > length(states)
