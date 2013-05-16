@@ -338,7 +338,6 @@ triggerTask = daqjob('olf');
 set(triggerTask,'triggerDestinations', triggerLine);
 addAnalogInput(triggerTask, 'trig', ['/dev' num2str(triggerBoardID) '/ai'], 0);
 setTaskProperty(triggerTask, 'trig', 'samplingRate', 10000, 'sampsPerChanToAcquire', 2);
-createMasterSampleClock(triggerTask,'/dev1/ctr0',10000);
 nimex_bindDoneCallback(getTaskByChannelName(triggerTask, 'trig'), {@incrementOdorByTrigger, '', '', hObject}, 'done', 0)
 
 start(triggerTask);
