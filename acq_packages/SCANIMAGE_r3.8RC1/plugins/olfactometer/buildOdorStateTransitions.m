@@ -156,9 +156,21 @@ updateHeaderString('state.olfactometer.odorTimeListString');
 updateHeaderString('state.olfactometer.odorStateListString');
 updateHeaderString('state.olfactometer.odorFrameListString');
 
-state.xsgFilename = [xsg_getFilename() '.xsg'];
+% if any external trigger is engaged in stim, acq, or ephys, update the
+% xsg file name, otherwise, make it empty.
+acq_on =  getGlobal(progmanager, 'externalTrigger', 'acquirer', 'acquirer');
+ephys_on =  getGlobal(progmanager, 'externalTrigger', 'ephys', 'ephys');
+stim_on =  getGlobal(progmanager, 'externalTrigger', 'stimulator', 'stimulator');
+
+if (acq_on || ephys_on || stim_on)
+    state.xsgFilename = [xsg_getFilename() '.xsg'];
+else
+    state.xsgFilename = '';
+end
 updateHeaderString('state.xsgFilename');
 
+acq_setTraceLength(ceil(state.acq.numberOfFrames/state.acq.frameRate))
+ 
 if ~strcmp(state.files.baseName,'')
 % write header string to txt
 f=fopen([state.files.baseName zeroPadNum2Str(state.files.fileCounter) '_hdr.txt'], 'w+');
