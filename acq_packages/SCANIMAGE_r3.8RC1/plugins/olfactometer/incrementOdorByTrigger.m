@@ -16,8 +16,8 @@ nextValveBank = state.olfactometer.(['valveBank_' num2str(nextValvePosition)]);
 set(gh.olfactometer.valvePanel, 'SelectedObject', state.olfactometer.valveButtonGUIHandles(nextValvePosition));
 
 %send the command (ZERO BASED)
-sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ...
-    ['write Bank' num2str(nextValveBank) '_Valves ' num2str(nextValvePosition-1)]);
+% sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ...
+%     ['write Bank' num2str(nextValveBank) '_Valves ' num2str(nextValvePosition-1)]);
 
 state.olfactometer.odorPosition=state.olfactometer.odorPosition+1;
 
