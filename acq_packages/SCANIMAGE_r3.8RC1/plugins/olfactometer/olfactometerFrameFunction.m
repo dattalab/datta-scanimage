@@ -22,7 +22,7 @@ nextOdorState = 0;
 end
 if (lastFrame >= nextFrameTrigger)
     disp(['new state (' num2str(nextOdorState) ') entered at frame = ' num2str(lastFrame) '; time = ' num2str(lastFrame/state.acq.frameRate)])
-    incrementOdorByTrigger()
+    %incrementOdorByTrigger()
     
     % increment the nextFrameTrigger 
     % (is reset by buildOdorStateTransitions)

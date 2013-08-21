@@ -49,5 +49,8 @@ function initOlfactometer
   state.olfactometer.nFrames=0;
   state.olfactometer.totalMS=0;
  
+  state.olfactometer.arduino = serial('COM15', 'BaudRate', 9600);
+  fopen(state.olfactometer.arduino);
+  
   olfactometer_refresh;
 end

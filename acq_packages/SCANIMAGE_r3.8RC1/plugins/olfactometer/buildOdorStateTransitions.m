@@ -69,9 +69,12 @@ for i=1:4
     frameLengthsMS = [frameLengthsMS state.olfactometer.(['frameSpecificationField_' num2str(i)]) * msPerFrame];
 end
 
-while (1)
-    orderOfOdors = randperm(length(odors));
-    
+while (1) % the loop here is to insure that odors don't happen back to back
+    if (state.olfactometer.randomize)
+        orderOfOdors = randperm(length(odors));
+    else
+        orderOfOdors = odors;
+    end
     % build state lists
     state.olfactometer.odorStateList = [];
     state.olfactometer.odorTimeList = [];
@@ -83,7 +86,6 @@ while (1)
     
     
     for i=1:length(odors)
-        if (state.olfactometer.randomize)
             state.olfactometer.odorStateList = [state.olfactometer.odorStateList 0 odors(orderOfOdors(i)) 0 0];
             
             if strcmp(state.olfactometer.odorStateListString, '')
@@ -91,14 +93,6 @@ while (1)
             else
                 state.olfactometer.odorStateListString = [state.olfactometer.odorStateListString ';0;' num2str(odors(orderOfOdors(i))) ';0' ';0'];
             end
-        else
-            state.olfactometer.odorStateList = [state.olfactometer.odorStateList 0 odors(i) 0 0];
-            if strcmp(state.olfactometer.odorStateListString, '')
-                state.olfactometer.odorStateListString = ['0;' num2str(odors(i)) ';0' ';0'];
-            else
-                state.olfactometer.odorStateListString = [state.olfactometer.odorStateListString ';0;' num2str(odors(i)) ';0' ';0'];
-            end
-        end
         
         state.olfactometer.odorTimeList = [state.olfactometer.odorTimeList frameLengthsMS(1) frameLengthsMS(2) frameLengthsMS(3) frameLengthsMS(4) ];
         if strcmp(state.olfactometer.odorTimeListString, '')
@@ -126,14 +120,9 @@ while (1)
         end
     end
     
-    if (state.olfactometer.randomize)
-        firstOdor = num2str(odors(orderOfOdors(1)));
-        lastOdor = num2str(odors(orderOfOdors(end)));
-    else
-        firstOdor = num2str(odors(1));
-        lastOdor = num2str(odors(end));
-    end
-    
+    firstOdor = num2str(odors(orderOfOdors(1)));
+    lastOdor = num2str(odors(orderOfOdors(end)));
+
     if strcmp(state.olfactometer.oldLastOdor,'')
         state.olfactometer.oldLastOdor = lastOdor;
         break
@@ -143,6 +132,41 @@ while (1)
     else
         keyboard
     end
+end
+
+%send order to arduino
+valve_string = mat2str(orderOfOdors-1);
+valve_string = strrep(valve_string, '[', '');
+valve_string = strrep(valve_string, ']', '');
+valve_string = strrep(valve_string, ' ', '');
+fprintf(state.olfactometer.arduino, '%s\n', valve_string);
+
+%make new pulses
+makePulses(frameLengthsMS, orderOfOdors);
+
+%reload pulses
+stim_on = getGlobal(progmanager, 'externalTrigger', 'stimulator', 'stimulator');
+if stim_on == 1
+    setGlobal(progmanager, 'externalTrigger', 'stimulator', 'stimulator', 0)
+    stimulator('externalTrigger_Callback', stim_getHandle, [], guidata(stim_getHandle))
+    setGlobal(progmanager, 'externalTrigger', 'stimulator', 'stimulator', 1)
+    stimulator('externalTrigger_Callback', stim_getHandle, [], guidata(stim_getHandle))
+end
+
+acq_on = getGlobal(progmanager, 'externalTrigger', 'acquirer', 'acquirer');
+if acq_on == 1
+    setGlobal(progmanager, 'externalTrigger', 'acquirer', 'acquirer', 0)
+    acquirer('externalTrigger_Callback', acq_getHandle, [], guidata(acq_getHandle))
+    setGlobal(progmanager, 'externalTrigger', 'acquirer', 'acquirer', 1)
+    acquirer('externalTrigger_Callback', acq_getHandle, [], guidata(acq_getHandle))
+end
+
+ephys_on = getGlobal(progmanager, 'externalTrigger', 'ephys', 'ephys');
+if ephys_on == 1
+    setGlobal(progmanager, 'externalTrigger', 'ephys', 'ephys', 0)
+    ephys('externalTrigger_Callback', ephys_getHandle, [], guidata(ephys_getHandle))
+    setGlobal(progmanager, 'externalTrigger', 'ephys', 'ephys', 1)
+    ephys('externalTrigger_Callback', ephys_getHandle, [], guidata(ephys_getHandle))
 end
 
 if length(odors) > 0
@@ -169,8 +193,6 @@ else
 end
 updateHeaderString('state.xsgFilename');
 
-acq_setTraceLength(ceil(state.acq.numberOfFrames/state.acq.frameRate))
- 
 if ~strcmp(state.files.baseName,'')
 % write header string to txt
 f=fopen([state.files.baseName zeroPadNum2Str(state.files.fileCounter) '_hdr.txt'], 'w+');
@@ -178,5 +200,49 @@ fprintf(f,'%s',state.headerString);
 fprintf(f,'%s',['state.xsgFilename=''' state.xsgFilename '''']);
 fclose(f);
 end
+
+%keyboard;
+end
+
+
+function makePulses(frameLengthsMS, orderOfOdors)
+global state
+
+sample_rate = getGlobal(progmanager, 'sampleRate', 'ephys', 'ephys');
+trace_length_in_samples = round(sum(frameLengthsMS) * length(orderOfOdors) * sample_rate/1000); 
+if trace_length_in_samples == 0
+    return
+end
+
+stim_literal_pulse = zeros(1, trace_length_in_samples);
+state_literal_pulse = zeros(1, trace_length_in_samples);
+
+for i=1:length(orderOfOdors)
+    start = round( ((i-1) * sum(frameLengthsMS)*10) + frameLengthsMS(1)*10);
+    stop = round( ((i-1) * sum(frameLengthsMS)*10) + sum(frameLengthsMS(1:2))*10);
+    stim_literal_pulse(start:stop) = 5000;
+    state_literal_pulse(start:stop) = orderOfOdors(i)*1000;
+end
+
+stimPulse = signalobject('Name', 'olfactoTrigPulse', 'sampleRate', 10000);
+literal(stimPulse, stim_literal_pulse);
+
+statePulse = signalobject('Name', 'olfactoStatePulse', 'sampleRate', 10000);
+literal(statePulse, state_literal_pulse);
+
+allPulses = [stimPulse, statePulse];
+
+destdir = 'C:\scanimage_conf\olfactoPulses\olfactoPulses';
+
+for signal = allPulses
+    saveCompatible(fullfile(destdir, [get(signal, 'Name') '.signal']), 'signal', '-mat');
+end
+
+delete(allPulses)
+
+% set acquierer, ephys, and stim trace lengths
+ephys_setTraceLength(ceil(trace_length_in_samples/sample_rate));
+acq_setTraceLength(ceil(trace_length_in_samples/sample_rate));
+stim_setTraceLength(ceil(trace_length_in_samples/sample_rate));
 
 end

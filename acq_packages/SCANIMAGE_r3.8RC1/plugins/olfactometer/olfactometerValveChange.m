@@ -12,7 +12,8 @@ newValveNumeric = str2num(newValve)-1;
 
 bank = getfield(state.olfactometer, ['valveBank_' newValve]);
 
-sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write Bank' num2str(bank) '_Valves ' num2str(newValveNumeric)])
+%sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write Bank' num2str(bank) '_Valves ' num2str(newValveNumeric)])
+fprintf(state.olfactometer.arduino, '%s\n', ['X', num2str(str2num(newValve)-1)]);
 
 %set(a.valvepanel, 'selectedobject', a.valveradiobutton(3))
 
