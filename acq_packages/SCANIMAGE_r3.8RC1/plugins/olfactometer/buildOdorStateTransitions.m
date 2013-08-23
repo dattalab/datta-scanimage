@@ -49,8 +49,6 @@ for i=1:16
     end
 end
 
-odors;
-
 % make state arrays
 
 msPerFrame = state.acq.linesPerFrame*state.acq.msPerLine;
@@ -73,7 +71,7 @@ while (1) % the loop here is to insure that odors don't happen back to back
     if (state.olfactometer.randomize)
         orderOfOdors = randperm(length(odors));
     else
-        orderOfOdors = odors;
+        orderOfOdors = 1:length(odors);
     end
     % build state lists
     state.olfactometer.odorStateList = [];
@@ -135,14 +133,16 @@ while (1) % the loop here is to insure that odors don't happen back to back
 end
 
 %send order to arduino
-valve_string = mat2str(orderOfOdors-1);
-valve_string = strrep(valve_string, '[', '');
-valve_string = strrep(valve_string, ']', '');
-valve_string = strrep(valve_string, ' ', '');
-fprintf(state.olfactometer.arduino, '%s\n', valve_string);
+% valve_string = mat2str(orderOfOdors-1);
+% valve_string = strrep(valve_string, '[', '');
+% valve_string = strrep(valve_string, ']', '');
+% valve_string = strrep(valve_string, ' ', '');
+state.olfactometer.arduino_string = arrayfun(@valvenum2hexstr, odors(orderOfOdors));
+disp (['to arduino ' state.olfactometer.arduino_string])
+fprintf(state.olfactometer.arduino, '%s\n', state.olfactometer.arduino_string);
 
 %make new pulses
-makePulses(frameLengthsMS, orderOfOdors);
+makePulses(frameLengthsMS, odors(orderOfOdors));
 
 %reload pulses
 stim_on = getGlobal(progmanager, 'externalTrigger', 'stimulator', 'stimulator');
@@ -204,12 +204,11 @@ end
 %keyboard;
 end
 
-
-function makePulses(frameLengthsMS, orderOfOdors)
+function makePulses(frameLengthsMS, orderedOdors)
 global state
 
 sample_rate = getGlobal(progmanager, 'sampleRate', 'ephys', 'ephys');
-trace_length_in_samples = round(sum(frameLengthsMS) * length(orderOfOdors) * sample_rate/1000); 
+trace_length_in_samples = round(sum(frameLengthsMS) * length(orderedOdors) * sample_rate/1000); 
 if trace_length_in_samples == 0
     return
 end
@@ -217,11 +216,11 @@ end
 stim_literal_pulse = zeros(1, trace_length_in_samples);
 state_literal_pulse = zeros(1, trace_length_in_samples);
 
-for i=1:length(orderOfOdors)
+for i=1:length(orderedOdors)
     start = round( ((i-1) * sum(frameLengthsMS)*10) + frameLengthsMS(1)*10);
     stop = round( ((i-1) * sum(frameLengthsMS)*10) + sum(frameLengthsMS(1:2))*10);
-    stim_literal_pulse(start:stop) = 5000;
-    state_literal_pulse(start:stop) = orderOfOdors(i)*1000;
+    stim_literal_pulse(start:stop) = 10000;
+    state_literal_pulse(start:stop) = orderedOdors(i)*1000;
 end
 
 stimPulse = signalobject('Name', 'olfactoTrigPulse', 'sampleRate', 10000);

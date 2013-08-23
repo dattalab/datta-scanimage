@@ -1,9 +1,6 @@
 function olfactometerValveChange(handle,EventData)
 global state gh;
 
-%disp([EventData.EventName,'  ',...
-%disp(get(get(handle,'selectedobject'),'string'));
-
 oldvalve = get(EventData.OldValue,'string');
 newValve = get(EventData.NewValue,'string');
 
@@ -13,8 +10,6 @@ newValveNumeric = str2num(newValve)-1;
 bank = getfield(state.olfactometer, ['valveBank_' newValve]);
 
 %sendCommandToOlfactometer(state.olfactometer.olfactometerConnection, ['write Bank' num2str(bank) '_Valves ' num2str(newValveNumeric)])
-fprintf(state.olfactometer.arduino, '%s\n', ['X', num2str(str2num(newValve)-1)]);
-
-%set(a.valvepanel, 'selectedobject', a.valveradiobutton(3))
+fprintf(state.olfactometer.arduino, '%s\n', ['X', valve2hex(newValve)]);
 
 end
