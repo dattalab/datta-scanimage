@@ -140,6 +140,7 @@ end
 state.olfactometer.arduino_string = arrayfun(@valvenum2hexstr, odors(orderOfOdors));
 disp (['to arduino ' state.olfactometer.arduino_string])
 fprintf(state.olfactometer.arduino, '%s\n', state.olfactometer.arduino_string);
+disp(state.olfactometer.odorStateListString)
 
 %make new pulses
 makePulses(frameLengthsMS, odors(orderOfOdors));
