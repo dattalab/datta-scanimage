@@ -72,6 +72,7 @@ function varargout = generic_Callback(h, eventdata, handles, varargin)
 global state
 genericCallback(h);
 buildOdorStateTransitions;
+olfactometer_refresh;
 end
 
 % --------------------------------------------------------------------
@@ -81,6 +82,7 @@ global state
 genericCallback(h);
 calculateFrameTimes();
 buildOdorStateTransitions();
+olfactometer_refresh;
 end
 
 % --------------------------------------------------------------------
