@@ -1,9 +1,9 @@
 function spFillOdors
 global state gh
 
-state.olfactometer.frameSpecificationField_1 = 128;
-state.olfactometer.frameSpecificationField_2 = 16;
-state.olfactometer.frameSpecificationField_3 = 128;
+state.olfactometer.frameSpecificationField_1 = 62;
+state.olfactometer.frameSpecificationField_2 = 7;
+state.olfactometer.frameSpecificationField_3 = 62;
 state.olfactometer.frameSpecificationField_4 = 1;
 
 updateGUIByName({'gh.olfactometer.frameSpecificationField_1', 
