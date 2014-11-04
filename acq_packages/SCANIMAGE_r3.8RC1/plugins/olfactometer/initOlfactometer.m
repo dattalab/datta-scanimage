@@ -10,7 +10,6 @@ function initOlfactometer
     gh=setfield(gh,'olfactometer', guidata(olfactometer));     
 	waitbar(.1,h);
 	
-	%openini('olfactometer.ini');
 	initGUIs('olfactometer.ini');
     
 	waitbar(.2,h,'Connecting to olfactometer and setting flowrates...');
@@ -18,8 +17,7 @@ function initOlfactometer
     % connect to olfactometer and set basic flow rates
     connectToOlfactometer();
     updateMFCRates(2);
-    %initOlfactometerTasks();
-    
+
     waitbar(1,h);
     
     close(h);
@@ -49,5 +47,10 @@ function initOlfactometer
   state.olfactometer.nFrames=0;
   state.olfactometer.totalMS=0;
  
+  state.olfactometer.arduino = serial('COM9', 'BaudRate', 9600);
+  %state.olfactometer.arduino = serial('COM24', 'BaudRate', 9600);
+
+  fopen(state.olfactometer.arduino);
+  
   olfactometer_refresh;
 end
