@@ -150,23 +150,37 @@ disp(state.olfactometer.odorStateListString)
 makePulses(frameLengthsMS, odors(orderOfOdors)); 
 
 % toggle and reload pulses
-stim_on = getGlobal(progmanager, 'externalTrigger', 'stimulator', 'stimulator');
-if stim_on == 1
-    setGlobal(progmanager, 'externalTrigger', 'stimulator', 'stimulator', 0)
-    stimulator('externalTrigger_Callback', stim_getHandle, [], guidata(stim_getHandle))
-    setGlobal(progmanager, 'externalTrigger', 'stimulator', 'stimulator', 1)
-    stimulator('externalTrigger_Callback', stim_getHandle, [], guidata(stim_getHandle))
-end
-
 acq_on = getGlobal(progmanager, 'externalTrigger', 'acquirer', 'acquirer');
-if acq_on == 1
+ephys_on = getGlobal(progmanager, 'externalTrigger', 'ephys', 'ephys');
+stim_on = getGlobal(progmanager, 'externalTrigger', 'stimulator', 'stimulator');
+
+if acq_on && stim_on
     setGlobal(progmanager, 'externalTrigger', 'acquirer', 'acquirer', 0)
     acquirer('externalTrigger_Callback', acq_getHandle, [], guidata(acq_getHandle))
+    setGlobal(progmanager, 'externalTrigger', 'stimulator', 'stimulator', 0)
+    stimulator('externalTrigger_Callback', stim_getHandle, [], guidata(stim_getHandle))
+
     setGlobal(progmanager, 'externalTrigger', 'acquirer', 'acquirer', 1)
     acquirer('externalTrigger_Callback', acq_getHandle, [], guidata(acq_getHandle))
+    setGlobal(progmanager, 'externalTrigger', 'stimulator', 'stimulator', 1)
+    stimulator('externalTrigger_Callback', stim_getHandle, [], guidata(stim_getHandle))
+    
+else
+    if acq_on == 1
+        setGlobal(progmanager, 'externalTrigger', 'acquirer', 'acquirer', 0)
+        acquirer('externalTrigger_Callback', acq_getHandle, [], guidata(acq_getHandle))
+        setGlobal(progmanager, 'externalTrigger', 'acquirer', 'acquirer', 1)
+        acquirer('externalTrigger_Callback', acq_getHandle, [], guidata(acq_getHandle))
+    end
+    
+    if stim_on == 1
+        setGlobal(progmanager, 'externalTrigger', 'stimulator', 'stimulator', 0)
+        stimulator('externalTrigger_Callback', stim_getHandle, [], guidata(stim_getHandle))
+        setGlobal(progmanager, 'externalTrigger', 'stimulator', 'stimulator', 1)
+        stimulator('externalTrigger_Callback', stim_getHandle, [], guidata(stim_getHandle))
+    end
 end
 
-ephys_on = getGlobal(progmanager, 'externalTrigger', 'ephys', 'ephys');
 if ephys_on == 1
     setGlobal(progmanager, 'externalTrigger', 'ephys', 'ephys', 0)
     ephys('externalTrigger_Callback', ephys_getHandle, [], guidata(ephys_getHandle))
